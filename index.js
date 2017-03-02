@@ -2,12 +2,11 @@ const onesky = require('onesky-utils');
 const fs = require('fs');
 
 let i18nConfig;
+let localesPath = `${__dirname}/../../i18n/`;
 
 const {OS_KEY, OS_SECRET} = process.env;
 
-const LOCALES_PATH = `${__dirname}/../../i18n/`;
-
-module.exports = function i18n(config, command) {
+module.exports = function i18n({ config, command, path }) {
   if (!OS_KEY) {
     console.log('You must specify a valid API key in `OS_KEY` env var');
     return;
@@ -18,6 +17,7 @@ module.exports = function i18n(config, command) {
   }
 
   i18nConfig = config;
+  localesPath = path || localesPath;
 
   switch (command) {
   case 'send':
@@ -75,13 +75,13 @@ function loadFile({ projectId, file, lang, rename }) {
 }
 
 function writeFile({ file, lang, content }) {
-  if (!fs.existsSync(`${LOCALES_PATH}`)) {
-    fs.mkdirSync(`${LOCALES_PATH}`);
+  if (!fs.existsSync(`${localesPath}`)) {
+    fs.mkdirSync(`${localesPath}`);
   }
-  if (!fs.existsSync(`${LOCALES_PATH}${lang}`)) {
-    fs.mkdirSync(`${LOCALES_PATH}${lang}`);
+  if (!fs.existsSync(`${localesPath}${lang}`)) {
+    fs.mkdirSync(`${localesPath}${lang}`);
   }
-  fs.writeFileSync(`${LOCALES_PATH}${lang}/${file}.json`, content, 'utf-8');
+  fs.writeFileSync(`${localesPath}${lang}/${file}.json`, content, 'utf-8');
 }
 
 function sendAll() {
@@ -101,7 +101,7 @@ function sendAll() {
 }
 
 function postFile({ projectId, file, lang, rename }) {
-  const path = `${LOCALES_PATH}/${lang}/${file}.json`;
+  const path = `${localesPath}/${lang}/${file}.json`;
   if (!fs.existsSync(path)) {
     return;
   }
