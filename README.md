@@ -4,7 +4,14 @@
 
     npm i --save-dev github:hadrienl/aurelia-cli-i18n-oneskly-task
 
-## Usage
+## Configuration
+
+Set OneSky credentials as environment variables :
+
+```
+export OS_KEY=YOUR_API_KEY
+export OS_SECRET=YOUR_API_SECRET
+```
 
 Copy the files `tasks/i18n.js` and `tasks/i18n.json` to your app's aurelia folder : `aurelia_project/tasks`.
 
@@ -39,3 +46,14 @@ Exemple:
   …
 }
 ```
+
+## Usage
+
+    $ au i18n load
+
+Will load all files in `ì18n` folder.
+
+    $ au i18n send
+
+Will send all files to OneSkyApp.
+
