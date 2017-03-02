@@ -1,7 +1,7 @@
-import onesky from 'onesky-utils';
-import fs from 'fs';
-import project from '../aurelia.json';
-import {CLIOptions} from 'aurelia-cli';
+const onesky = require('onesky-utils');
+const fs = require('fs');
+const project = require('../aurelia.json');
+const CLIOptions = require('aurelia-cli').CLIOptions;
 
 const i18nConfig = project.i18n;
 
