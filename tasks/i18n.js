@@ -4,5 +4,8 @@ import project from '../aurelia.json';
 import {CLIOptions} from 'aurelia-cli';
 
 export default gulp.series(
-  () => i18n(project.i18n, CLIOptions.instance.args[0])
+  () => i18n({
+    config: project.i18n,
+    command: CLIOptions.instance.args[0]
+  })
 );
