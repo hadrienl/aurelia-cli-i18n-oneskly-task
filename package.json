@@ -1,0 +1,33 @@
+{
+  "name": "aurelia-cli-i18n-oneskly-task",
+  "version": "1.0.0",
+  "description": "Aurelia-cli task to load and post i18n files from OneSkyApp",
+  "main": "index.js",
+  "dependencies": {
+    "aurelia-cli": "^0.24.0",
+    "onesky-utils": "^1.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hadrienl/aurelia-cli-i18n-oneskly-task.git"
+  },
+  "keywords": [
+    "aurelia",
+    "aurelia-cli",
+    "onesky",
+    "oneskyapp",
+    "i18n",
+    "localization",
+    "translation"
+  ],
+  "author": "Hadrien Lanneau (hadrien@lanneau.me)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hadrienl/aurelia-cli-i18n-oneskly-task/issues"
+  },
+  "homepage": "https://github.com/hadrienl/aurelia-cli-i18n-oneskly-task#readme"
+}
