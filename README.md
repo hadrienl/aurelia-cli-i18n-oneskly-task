@@ -2,7 +2,7 @@
 
 ## Install
 
-    npm i --save-dev github:hadrienl/aurelia-cli-i18n-oneskly-task
+    npm i --save-dev github:hadrienl/aurelia-cli-i18n-onesky-task
 
 ## Configuration
 
