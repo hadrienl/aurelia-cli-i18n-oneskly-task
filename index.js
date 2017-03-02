@@ -1,15 +1,13 @@
 const onesky = require('onesky-utils');
 const fs = require('fs');
-const project = require('../aurelia.json');
-const CLIOptions = require('aurelia-cli').CLIOptions;
 
-const i18nConfig = project.i18n;
+let i18nConfig;
 
 const {OS_KEY, OS_SECRET} = process.env;
 
 const LOCALES_PATH = `${__dirname}/../../i18n/`;
 
-export default function i18n(project) {
+module.exports = function i18n(config, command) {
   if (!OS_KEY) {
     console.log('You must specify a valid API key in `OS_KEY` env var');
     return;
@@ -18,7 +16,10 @@ export default function i18n(project) {
     console.log('You must specify a valid API secret in `OS_SECRET` env var');
     return;
   }
-  switch (CLIOptions.instance.args[0]) {
+
+  i18nConfig = config;
+
+  switch (command) {
   case 'send':
     return sendAll();
   case 'load':
@@ -26,7 +27,7 @@ export default function i18n(project) {
   default:
     console.log('You must specify an action : send or load');
   }
-}
+};
 
 function loadAll() {
   for (let file of i18nConfig.files) {

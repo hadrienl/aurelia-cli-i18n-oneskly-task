@@ -1,0 +1,13 @@
+{
+  "name": "i18n",
+  "description": "Manage translations",
+  "parameters": [
+    {
+      "name": "send",
+      "description": "Send the dictionnaries to OneSky"
+    }, {
+      "name": "load",
+      "description": "Load last version of all dictionnaries from OneSky"
+    }
+  ]
+}
