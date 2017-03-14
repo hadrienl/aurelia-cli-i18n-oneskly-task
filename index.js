@@ -6,7 +6,7 @@ let localesPath = `${__dirname}/../../i18n/`;
 
 const {OS_KEY, OS_SECRET} = process.env;
 
-module.exports = function i18n({ config, command, path }) {
+module.exports = function i18n({ config, command, path }, done) {
   if (!OS_KEY) {
     console.log('You must specify a valid API key in `OS_KEY` env var');
     return;
@@ -21,30 +21,32 @@ module.exports = function i18n({ config, command, path }) {
 
   switch (command) {
   case 'send':
-    return sendAll();
+    return sendAll().then(() => done());
   case 'load':
-    return loadAll();
+    return loadAll().then(() => done());
   default:
-    console.log('You must specify an action : send or load');
+    done('You must specify an action : send or load');
   }
 };
 
 function loadAll() {
+  const promises = [];
   for (let file of i18nConfig.files) {
     const langs = file.langs || i18nConfig.langs;
     for (let lang of langs) {
-      loadFile({
+      promises.push(loadFile({
         projectId: file.projectId,
         file: file.name,
         lang,
         rename: file.rename
-      });
+      }));
     }
   }
+  return Promise.all(promises);
 }
 
 function loadFile({ projectId, file, lang, rename }) {
-  onesky.getFile({
+  return onesky.getFile({
     secret: OS_SECRET,
     apiKey: OS_KEY,
     projectId,
@@ -52,10 +54,12 @@ function loadFile({ projectId, file, lang, rename }) {
     fileName: `${file}.json`
   })
   .then(content => {
-    if (!content) {
-      throw new Error('no content');
+    try {
+      content = JSON.parse(content);
+    } catch (e) {
+      content = null;
     }
-    content = JSON.parse(content);
+
     if (!content ||
         !content[lang] ||
         !content[lang].translation) {
@@ -64,7 +68,7 @@ function loadFile({ projectId, file, lang, rename }) {
 
     cleanContent(content);
 
-    content = JSON.stringify(content[lang][file], null, '  ');
+    content = JSON.stringify(content[lang].translation, null, '  ');
 
     writeFile({ file: rename || file, lang, content });
   })
@@ -85,19 +89,21 @@ function writeFile({ file, lang, content }) {
 }
 
 function sendAll() {
+  const promises = [];
   for (let file of i18nConfig.files) {
     const langs = file.langs || i18nConfig.langs;
     if (!file.upload) continue;
 
     for (let lang of langs) {
-      postFile({
+      promises.push(postFile({
         projectId: file.projectId,
         file: file.rename || file.name,
         lang,
         rename: file.name
-      });
+      }));
     }
   }
+  return Promise.all(promises);
 }
 
 function postFile({ projectId, file, lang, rename }) {
@@ -109,9 +115,9 @@ function postFile({ projectId, file, lang, rename }) {
   file = rename || file;
 
   let translations = fs.readFileSync(path).toString();
-  translations = `{"${lang}": {"${file}": ${translations}}}`;
+  translations = `{"${lang}": {"translation": ${translations}}}`;
 
-  onesky.postFile({
+  return onesky.postFile({
     secret: OS_SECRET,
     apiKey: OS_KEY,
     projectId: projectId,
