@@ -6,7 +6,7 @@ let localesPath = `${__dirname}/../../i18n/`;
 
 const {OS_KEY, OS_SECRET} = process.env;
 
-module.exports = function i18n({ config, command, path }, done) {
+module.exports = function i18n({ config, command, path }, done = () => {}) {
   if (!OS_KEY) {
     console.log('You must specify a valid API key in `OS_KEY` env var');
     return;
