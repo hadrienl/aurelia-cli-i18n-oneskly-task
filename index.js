@@ -1,4 +1,4 @@
-const onesky = require('onesky-utils');
+const onesky = require('@brainly/onesky-utils');
 const fs = require('fs');
 
 let i18nConfig;
