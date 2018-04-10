@@ -4,7 +4,7 @@
   "description": "Aurelia-cli task to load and post i18n files from OneSkyApp",
   "main": "index.js",
   "dependencies": {
-    "onesky-utils": "^1.0.0"
+    "@brainly/onesky-utils": "^1.3.0"
   },
   "devDependencies": {},
   "scripts": {
